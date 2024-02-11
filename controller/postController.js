@@ -2,6 +2,7 @@ const Post = require("../model/post");
 const asyncHandler = require("express-async-handler")
 
 exports.published_posts_get = asyncHandler(async(req,res, next) => {
+    console.log(req.token)
     const post = await Post.find({status: "published"}).exec()
 
     res.send(post)

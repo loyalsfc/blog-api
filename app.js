@@ -17,9 +17,11 @@ app.use(express.urlencoded({extended: true}))
 
 const post = require("./routes/index")
 const comment = require("./routes/comment")
+const user = require("./routes/user")
 
 app.use('/post', post);
 app.use("/comment", comment);
+app.use("/user", user)
 
 app.listen(5000, ()=> {
     console.log(`App start running on port 5000`)
