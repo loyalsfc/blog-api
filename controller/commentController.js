@@ -38,7 +38,11 @@ exports.comment_post = asyncHandler(async(req, res) => {
 
 exports.comment_delete = asyncHandler(async(req, res) => {
     const commentId = req.params.commentId
-    await Comment.findByIdAndDelete(commentId);
+    const comment = await Comment.findById(commentId);
+    const post = await Post.findById(comment.postId)
+    post.comments = post.comments.filter(item => item != commentId)
+
+    Promise.all([await post.save(), await Comment.findByIdAndDelete(commentId)])
 
     res.send({
         status: 200,

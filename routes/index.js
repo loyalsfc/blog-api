@@ -11,7 +11,7 @@ router.get("/all", verifyToken, all_posts_get)
 
 router.post("/", verifyToken, posts_post)
 
-router.post("/search", posts_search)
+router.get("/search", posts_search)
 
 router.get("/:slug", single_posts_get)
 
