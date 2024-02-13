@@ -2,7 +2,7 @@ const Post = require("../model/post");
 const asyncHandler = require("express-async-handler")
 
 exports.published_posts_get = asyncHandler(async(req,res, next) => {
-    console.log(req.token)
+    console.log({token: req.token})
     const post = await Post.find({status: "published"}).exec()
 
     res.send(post)
@@ -34,12 +34,12 @@ exports.posts_search = asyncHandler(async(req, res, next) => {
 })
 
 exports.single_posts_get = asyncHandler(async(req,res, next) => {
-    console.log(req.query.comment)
+    console.log({single_posts_get: req.query.comment})
     let post
     if(req.query.comment == 1){
-        post = await Post.findById(req.params.postId).populate("comments")
+        post = await Post.findOne({slug: req.params.slug}).populate("comments")
     } else {
-        post = await Post.findById(req.params.postId, "title body createdAt")
+        post = await Post.findOne({slug: req.params.slug}, "title body createdAt")
     }
     if(post){
         res.send(post)
@@ -55,7 +55,6 @@ const slug = title => title.replaceAll(" ", "-").replaceAll("/", "-").toLowerCas
 
 exports.posts_post = asyncHandler(async(req,res, next) => {
     const {title, body, status} = req.body;
-    console.log(req.body)
     const post = new Post({
         title,
         body,
